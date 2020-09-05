@@ -5,3 +5,11 @@ from django.http import HttpResponse
 
 def index(request):
     return HttpResponse('indexメソッド')
+
+def temp(request):
+
+    context = {
+        'msg': 'こんにちは、世界'
+    }
+
+    return render(request, 'main/temp.html', context)
