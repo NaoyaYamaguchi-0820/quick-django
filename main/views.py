@@ -2,6 +2,9 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from .models import Book
 import random
+from datetime import date
+from django.db.models import Q
+from django.db.models.functions import Substr
 
 # Create your views here.
 
@@ -38,4 +41,19 @@ def firstof(request):
         'a': 'hello.',
         'b': 'good evening.',
         'c': 'good night.',
+    })
+
+def master(request):
+    return render(request, 'main/master.html', {
+        'msg': 'masterです',
+    })
+
+def static(request):
+    return render(request, 'main/static.html',)
+
+def filter(request):
+    books = Book.objects.values('title', 'price')
+
+    return render(request, 'main/list.html',{
+        'books': books
     })

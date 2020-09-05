@@ -8,5 +8,8 @@ urlpatterns = [
     path('iftag', views.iftag, name='iftag'),
     path('yesno', views.yesno, name='yesno'),
     path('firstof', views.firstof, name='firstof'),
+    path('master', views.master, name='master'),
+    path('static', views.static, name='static'),
+    path('filter', views.filter, name='filter'),
 
 ]

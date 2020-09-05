@@ -36,3 +36,6 @@ class Book(models.Model):
 
     def __str__(self):
         return f'{self.title}({self.publisher}/{self.price}円)'
+
+    class Meta:
+        ordering = ('-published',)
