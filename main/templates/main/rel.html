@@ -1,0 +1,15 @@
+{% extends 'main/layout.html' %}
+
+{% block main %}
+
+<h3>「{{ book.title }}」のレビュー</h3>
+
+<hr>
+
+<ul>
+    {% for review in book.review_set.all %}
+    <li>{{ review.body }}({{ review.name }})</li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

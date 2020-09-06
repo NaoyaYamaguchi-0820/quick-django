@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <title>rel2.html</title>
+</head>
+<body>
+    <table class="table">
+    <thead>
+        <tr>
+            <th>ISBNコード</th>
+            <th>書名</th>
+            <th>著者</th>
+            <th>価格</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for book in books %}
+        <tr>
+            <td>{{ book.isbn }}</td>
+            <td>{{ book.title }}</td>
+            <td>
+                {% for a in book.author_set.all %}{{ a.name }}{% endfor %}
+            </td>
+            <td>{{ book.price }}円</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+</body>
+</html>
