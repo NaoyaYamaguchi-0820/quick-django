@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from .models import Book
+from .forms import BookForm
 import random
 from datetime import date
 from django.db.models import Q
@@ -9,6 +10,11 @@ from django.shortcuts import redirect
 from django.http import Http404
 from django.shortcuts import get_object_or_404
 import csv
+from django.views.decorators.http import require_GET
+from django.views.decorators.http import require_POST
+from django.contrib import messages
+from .forms import BookModelForm
+from django.urls import reverse
 
 # Create your views here.
 
@@ -117,3 +123,104 @@ def res_csv(request):
     ])
 
     return response
+
+def form_input(request):
+    form = BookForm()
+
+    return render(request, 'main/form_input.html',{
+        'form': form
+    }
+    ) 
+
+@require_POST
+def form_process(request):
+    form = BookForm(request.POST)
+    if form.is_valid():
+        return render(
+            request,
+            'main/form_process.html',
+            {
+                'form': form
+            }
+        )
+    else:
+        return render(
+            request,
+            'main/form_input.html',
+            {
+                'form': form
+            }
+        )
+
+def crud_new(request):
+    form = BookModelForm()
+    return render(
+        request,
+        'main/crud_new.html',
+        {
+            'form': form,
+        },
+    )
+
+@require_POST
+def crud_create(request):
+    obj = Book()
+    form = BookModelForm(request.POST, instance=obj)
+
+    if form.is_valid():
+        form.save()
+        messages.add_message(request, messages.SUCCESS, 'データの保存に成功しました')
+        return redirect('crud_new')
+    else:
+        return render(
+            request,
+            'main/crud_new.html',
+            {
+                'form': form,
+            }
+        )
+
+def crud_edit(request, id):
+    obj = Book.objects.get(pk=id)
+    form = BookModelForm(instance=obj)
+    return render(
+        request,
+        'main/crud_edit.html',
+        {
+            'id': id,
+            'form': form,
+        }
+    )
+
+@require_POST
+def crud_update(request, id):
+    obj = Book.objects.get(pk=id)
+    form = BookModelForm(request.POST, instance=obj)
+
+    if form.is_valid():
+        form.save()
+        messages.success(request, 'データの更新に成功しました。')
+        return redirect(reverse('crud_edit', kwargs={'id': id}))
+    else:
+        return render(request, 'main/crud_edit.html', {
+            'id': id,
+            'form': form,
+        })
+
+def crud_show(request, id):
+    obj = Book.objects.get(pk=id)
+    form = BookModelForm(instance=obj)
+    return render(
+        request,
+        'main/crud_show.html',
+        {
+            'id': id,
+            'form': form,
+        }
+    )
+
+def crud_delete(request, id):
+    obj = Book.objects.get(pk=id)
+    obj.delete()
+    messages.success(request, 'データの削除に成功しました。')
+    return redirect(reverse('list'))

@@ -22,5 +22,13 @@ urlpatterns = [
     path('res_notfound2', views.res_notfound2, name='res_notfound2'),
     path('res_header', views.res_header, name='res_header'),
     path('res_csv', views.res_csv, name='res_csv'),
+    path('form_input', views.form_input, name='form_input'),
+    path('form_process', views.form_process, name='form_process'),
+    path('crud_new', views.crud_new, name='crud_new'),
+    path('crud_create', views.crud_create, name='crud_create'),
+    path('crud_edit/<int:id>', views.crud_edit, name='crud_edit'),
+    path('crud_update/<int:id>', views.crud_update, name='crud_update'),
+    path('crud_show/<int:id>', views.crud_show, name='crud_show'),
+    path('crud_delete/<int:id>', views.crud_delete, name='crud_delete'),
 
 ]

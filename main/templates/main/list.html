@@ -6,6 +6,9 @@
     <title>list.html</title>
 </head>
 <body>
+    {% for message in messages %}
+        <div class="alert alert-success">{{message}}</div>
+    {% endfor %}
     <table class="table">
         <thead>
             <th>ISBNコード</th>
@@ -22,6 +25,10 @@
                 <td>{{book.price}}</td>
                 <td>{{book.publisher}}</td>
                 <td>{{book.published|date:'DATE_FORMAT'}}</td>
+                <td>
+                    <a href="{% url 'crud_show' book.id %}">詳細</a>
+                    <a href="{% url 'crud_edit' book.id %}">編集</a>
+                </td>
             </tr>
             {% endfor %}
         </tbody>
